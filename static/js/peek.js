@@ -198,6 +198,7 @@ $(document).ready(function () {
 		var keycode = ev.keyCode;
 		var console = $(this).val()
 		if(!(console && user_typed) && keycode===38) {
+			debugg.log('pressed up');
 			$(this).val(current_history.pop());
 		}
 		else {
