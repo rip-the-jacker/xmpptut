@@ -1,4 +1,7 @@
 var debugg = console;
+var command_history = [];
+var current_history = [];
+var user_typed = false;
 var Peek = {
 	connection: null,
 
@@ -155,6 +158,11 @@ $(document).ready(function () {
 
 	$('#send_button').click(function () {
 		var input = $('#input').val();
+		if(input && input!==command_history[command_history.length-1]) {
+			command_history.push(input);
+		}
+		current_history = command_history.slice(0);
+		user_typed = false;
 		var error = false;
 		if (input.length > 0) {
 			if (input[0] === '<') {
@@ -185,7 +193,15 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#input').keypress(function () {
+	$('#input').keydown( function (ev) {
 		$(this).css({backgroundColor: '#fff'});
-	});
+		var keycode = ev.keyCode;
+		var console = $(this).val()
+		if(!(console && user_typed) && keycode===38) {
+			$(this).val(current_history.pop());
+		}
+		else {
+			user_typed = true;
+		}
+	})
 });
